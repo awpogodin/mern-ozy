@@ -2,7 +2,10 @@
   <dictionary name="Alexandr">
     <words>
       <w>bcrypt</w>
+      <w>formik</w>
       <w>fullname</w>
+      <w>navbar</w>
+      <w>persistor</w>
       <w>signin</w>
       <w>virtuals</w>
     </words>

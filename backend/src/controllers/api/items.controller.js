@@ -8,7 +8,7 @@ const isAdmin = require('../../middlewares/isAdmin.middleware');
 const router = new Router();
 
 router.get('/', async (req, res) => {
-  const items = await Item.find({});
+  const items = await Item.find({}).sort('-createdAt');
   return res.json(items);
 });
 
@@ -50,6 +50,12 @@ router.post(
     }
   },
 );
+
+router.get('/category/:category', async (req, res) => {
+  const { category } = req.params;
+  const items = await Item.find({ category }).sort('-createdAt');
+  return res.json(items);
+});
 
 router.get('/:id', async (req, res) => {
   const item = await Item.findById(req.params.id);

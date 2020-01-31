@@ -6,6 +6,7 @@ const itemSchema = new mongoose.Schema({
   category: { type: String, required: true },
   imgUrl: { type: String, required: true },
   price: { type: Number, required: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 itemSchema.set('toJSON', {

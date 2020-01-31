@@ -13,6 +13,7 @@ const cartSchema = new mongoose.Schema({
   address: { type: String, default: '' },
   addressType: { type: String, default: 'Home' },
   completed: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
 cartSchema.set('toJSON', {

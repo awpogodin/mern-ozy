@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   address: { type: String, required: true },
   phone: { type: Number, required: true },
   admin: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
 userSchema.set('toJSON', {

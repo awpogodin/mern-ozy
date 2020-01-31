@@ -20,7 +20,20 @@ app.use(requestLogger);
 
 app.use(controllers);
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server is listening on port ${PORT}`);
-});
+async function start() {
+  try {
+    await mongoose.connect(config.get('mongoUri'), {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
+    // eslint-disable-next-line no-console
+    app.listen(PORT, () => console.log(`Server has been started on port ${PORT}...`));
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log('Server Error', e.message);
+    process.exit(1);
+  }
+}
+
+start();

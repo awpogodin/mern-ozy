@@ -1,7 +1,9 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Alexandr">
     <words>
+      <w>bcrypt</w>
       <w>fullname</w>
+      <w>signin</w>
       <w>virtuals</w>
     </words>
   </dictionary>

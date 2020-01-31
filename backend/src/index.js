@@ -1,0 +1,26 @@
+const express = require('express');
+const config = require('config');
+const mongoose = require('mongoose');
+const requestLogger = require('./middlewares/request-logger.middleware');
+const controllers = require('./controllers');
+
+const PORT = config.get('port') || 5000;
+
+const app = express();
+
+mongoose.connect(config.get('mongoUri'), {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
+
+app.use(express.json({ extended: true }));
+app.use(requestLogger);
+
+app.use(controllers);
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server is listening on port ${PORT}`);
+});

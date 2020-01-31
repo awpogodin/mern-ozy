@@ -8,12 +8,16 @@ import {
 import Navbar from './components/Navbar';
 import ItemsScreen from './screens/ItemsScreen';
 import LoginScreen from './screens/LoginScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 function App() {
   return (
     <Router>
       <Navbar />
       <Switch>
+        <Route path="/profile">
+          <ProfileScreen />
+        </Route>
         <Route path="/login">
           <LoginScreen />
         </Route>

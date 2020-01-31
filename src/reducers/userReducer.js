@@ -1,25 +1,24 @@
 import { USER_ACTIONS } from '../actions/constants';
 
 const initialState = {
-  userId: '',
-  token: '',
+  user: {},
 };
 
 function userReducer(state = initialState, { type, payload }) {
   switch (type) {
     case USER_ACTIONS.LOGIN: {
-      const { userId, token } = payload;
+      const {
+        user,
+      } = payload;
       return {
         ...state,
-        userId,
-        token,
+        user,
       };
     }
     case USER_ACTIONS.LOGOUT: {
       return {
         ...state,
-        userId: '',
-        token: '',
+        user: {},
       };
     }
     default:

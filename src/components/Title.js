@@ -3,15 +3,20 @@ import React from 'react';
 const styles = {
   title: {
     textAlign: 'center',
-    fontWeight: '300',
     fontSize: '36px',
+    fontWeight: '300',
+  },
+  titleBold: {
+    textAlign: 'center',
+    fontSize: '36px',
+    fontWeight: '500',
   },
 };
 
 const Title = (props) => {
-  const { title } = props || 'Heading';
+  const { title, type } = props || 'Heading';
   return (
-    <h2 style={styles.title}>{title}</h2>
+    <h2 style={type === 'bold' ? styles.titleBold : styles.title}>{title}</h2>
   );
 };
 

@@ -3,7 +3,12 @@ import { Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { useHttp } from '../../hooks/http.hook';
+import { getUser } from '../../selectors/userSelectors';
+import { login, logout } from '../../actions/userActions';
 
 const styles = {
   formEl: {
@@ -32,19 +37,19 @@ const validation = values => {
   return errors;
 };
 
-const LoginForm = () => {
-  const {
-    loading, request, error, clearError,
-  } = useHttp();
+const LoginForm = (props) => {
+  const { request } = useHttp();
+
+  const history = useHistory();
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       const data = await request('/api/auth/signin', 'POST', values);
-
-    } catch (e) {
-      console.log(e);
-    }
+      props.login(data);
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
     setSubmitting(false);
+    history.goBack();
   };
 
   return (
@@ -94,4 +99,32 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+LoginForm.propTypes = {
+  user: PropTypes.shape({
+    token: PropTypes.string,
+    userId: PropTypes.string,
+    email: PropTypes.string,
+    fullname: PropTypes.string,
+    address: PropTypes.string,
+    phone: PropTypes.number,
+  }),
+  login: PropTypes.func,
+  logout: PropTypes.func,
+};
+
+LoginForm.defaultProps = {
+  user: {},
+  login: PropTypes.func,
+  logout: PropTypes.func,
+};
+
+const mapStateToProps = state => ({
+  user: getUser(state),
+});
+
+const mapDispatchToProps = ({
+  login,
+  logout,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

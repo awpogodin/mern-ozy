@@ -86,8 +86,13 @@ router.post(
         config.get('jwtSecret'),
         { expiresIn: '1h' },
       );
-
-      res.json({ token, userId: user.id });
+      const aboutUser = {
+        email: user.email,
+        fullname: user.fullname,
+        address: user.address,
+        phone: user.phone,
+      };
+      res.json({ token, userId: user.id, ...aboutUser });
     } catch (e) {
       res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

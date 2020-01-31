@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from '../components/forms/LoginForm';
-import Title from "../components/Title";
+import Title from '../components/Title';
 
 const styles = {
   container: {
@@ -12,7 +12,7 @@ const styles = {
 
 const LoginScreen = () => (
   <div style={styles.container}>
-    <Title title='Авторизация' />
+    <Title title="Авторизация" />
     <LoginForm />
   </div>
 );

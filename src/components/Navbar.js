@@ -78,9 +78,13 @@ const NavBar = (props) => {
           onClose={handleClose}
         >
           { auth.isAuthenticated ? (
-            <MenuItem onClick={handleLogout}>Выйти</MenuItem>
+            <div>
+              <MenuItem onClick={handleLogout}>Выйти</MenuItem>
+            </div>
           ) : (
-            <MenuItem href="/login" onClick={changeRoute}>Войти</MenuItem>
+            <div>
+              <MenuItem href="/login" onClick={changeRoute}>Войти</MenuItem>
+            </div>
           )}
         </Menu>
       </div>

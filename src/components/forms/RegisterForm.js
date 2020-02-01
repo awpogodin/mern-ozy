@@ -95,7 +95,6 @@ const RegisterForm = () => {
   const history = useHistory();
 
   const onSubmit = async (values, { setErrors, setSubmitting }) => {
-    console.log(values);
     axios
       .post('/api/auth/register', values)
       .then(() => {

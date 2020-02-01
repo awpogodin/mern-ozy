@@ -8,8 +8,11 @@ const User = require('../../models/User.model');
 
 const router = new Router();
 
+// @route POST api/auth/register
+// @desc Register user
+// @access Public
 router.post(
-  '/signup',
+  '/register',
   [
     check('email', 'Некорректный email').isEmail(),
     check('password', 'Минимальная длина пароля 5 символов')
@@ -50,8 +53,12 @@ router.post(
   },
 );
 
+
+// @route POST api/auth/login
+// @desc Login user
+// @access Public
 router.post(
-  '/signin',
+  '/login',
   [
     check('email', 'Введите корректный email').normalizeEmail().isEmail(),
     check('password', 'Введите пароль').exists(),
@@ -72,19 +79,19 @@ router.post(
       const user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(400).json({ message: 'Пользователь не найден' });
+        return res.status(400).json({ email: 'Email не найден' });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res.status(400).json({ message: 'Неверный пароль, попробуйте снова' });
+        return res.status(400).json({ password: 'Неверный пароль' });
       }
 
       const token = jwt.sign(
         { userId: user.id },
         config.get('jwtSecret'),
-        { expiresIn: '1h' },
+        { expiresIn: '1h' }, // '1h'
       );
       const aboutUser = {
         email: user.email,

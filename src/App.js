@@ -5,19 +5,16 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import ItemsScreen from './screens/ItemsScreen';
+import NavBar from './components/NavBar';
 import LoginScreen from './screens/LoginScreen';
-import ProfileScreen from './screens/ProfileScreen';
+
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <NavBar />
       <Switch>
-        <Route path="/profile">
-          <ProfileScreen />
-        </Route>
         <Route path="/login">
           <LoginScreen />
         </Route>

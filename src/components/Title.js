@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const styles = {
   title: {
@@ -6,18 +7,23 @@ const styles = {
     fontSize: '36px',
     fontWeight: '300',
   },
-  titleBold: {
-    textAlign: 'center',
-    fontSize: '36px',
-    fontWeight: '500',
-  },
 };
 
-const Title = (props) => {
-  const { title, type } = props || 'Heading';
-  return (
-    <h2 style={type === 'bold' ? styles.titleBold : styles.title}>{title}</h2>
-  );
+const Title = ({ title = 'Heading', children }) => (
+  <>
+    <h2 style={styles.title}>{title}</h2>
+    {children}
+  </>
+);
+
+Title.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.element,
+};
+
+Title.defaultProps = {
+  title: 'Heading',
+  children: null,
 };
 
 export default Title;

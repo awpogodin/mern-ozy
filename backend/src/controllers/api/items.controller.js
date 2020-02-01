@@ -7,11 +7,18 @@ const isAdmin = require('../../middlewares/isAdmin.middleware');
 
 const router = new Router();
 
+
+// @route GET api/items/
+// @desc Get all items
+// @access Public
 router.get('/', async (req, res) => {
   const items = await Item.find({}).sort('-createdAt');
   return res.json(items);
 });
 
+// @route POST api/items/
+// @desc Create item
+// @access Admin
 router.post(
   '/',
   [
@@ -51,12 +58,19 @@ router.post(
   },
 );
 
+
+// @route GET api/items/category/:category
+// @desc Get items from the category
+// @access Public
 router.get('/category/:category', async (req, res) => {
   const { category } = req.params;
   const items = await Item.find({ category }).sort('-createdAt');
   return res.json(items);
 });
 
+// @route GET api/items/:id
+// @desc Get item by id
+// @access Public
 router.get('/:id', async (req, res) => {
   const item = await Item.findById(req.params.id);
   if (item) {
@@ -65,6 +79,10 @@ router.get('/:id', async (req, res) => {
   return res.status(404).end();
 });
 
+
+// @route PATCH api/items/:id
+// @desc Update item by id
+// @access Admin
 router.patch('/:id', [auth, isAdmin], async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
@@ -89,6 +107,10 @@ router.patch('/:id', [auth, isAdmin], async (req, res) => {
   }
 });
 
+
+// @route DELETE api/items/:id
+// @desc Delete item by id
+// @access Admin
 router.delete('/:id', [auth, isAdmin], async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);

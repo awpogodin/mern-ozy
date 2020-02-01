@@ -1,34 +1,35 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import { Link, useHistory } from 'react-router-dom';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { connect } from 'react-redux';
+import IconButton from '@material-ui/core/IconButton';
+import PropTypes from 'prop-types';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import FaceIcon from '@material-ui/icons/Face';
-import { connect } from 'react-redux';
-import { getUser } from '../selectors/userSelectors';
-import { logout } from '../actions/userActions';
-import PropTypes from "prop-types";
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import PersonIcon from '@material-ui/icons/Person';
+import { logoutUser, setCurrentUser } from '../actions/authActions';
 
 const styles = {
   navbar: {
+    maxWidth: '900px',
+    margin: '10px auto',
     display: 'flex',
-    padding: '6px',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  loginBtnActive: {
-    color: '#E91E63',
-  },
-  title: {
+  brand: {
     textDecoration: 'none',
     color: '#212121',
     fontWeight: '300',
-    fontSize: '24px',
-    flexGrow: 1,
+    fontSize: '30px',
+  },
+  person: {
+    color: '#E91E63',
   },
 };
 
-const Navbar = (props) => {
+const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const history = useHistory();
 
@@ -40,88 +41,66 @@ const Navbar = (props) => {
     setAnchorEl(null);
   };
 
-  const changeRoute = (e) => {
+  const changeRoute = e => {
     const path = e.target.getAttribute('href') || '/';
     history.push(path);
     handleClose();
   };
 
   const handleLogout = () => {
-    props.logout();
+    props.logoutUser();
     handleClose();
   };
-
-  const { user } = props;
-
+  const { auth } = props;
   return (
     <div style={styles.navbar}>
-      <Link style={styles.title} to="/">
-            Ozy
-      </Link>
-      <IconButton>
-        <ShoppingCartIcon />
-      </IconButton>
-      <IconButton
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        { user ? (
-          <FaceIcon style={styles.loginBtnActive} />
-        ) : (
-          <AccountCircleIcon />
-        )}
-      </IconButton>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        { user ? (
-          <div>
-            <MenuItem href="/profile" onClick={changeRoute} >
-              {user.email}
-            </MenuItem>
-            <MenuItem onClick={handleLogout} href="/login">
-            Выйти
-            </MenuItem>
-          </div>
-        ) : (
-          <MenuItem onClick={changeRoute} href="/login">
-            Войти
-          </MenuItem>
-        )}
-
-      </Menu>
+      <div>
+        <Link style={styles.brand} to="/">
+          <h2 style={styles.brand}>Ozy</h2>
+        </Link>
+      </div>
+      <div>
+        <IconButton>
+          <ShoppingCartOutlinedIcon />
+        </IconButton>
+        <IconButton onClick={handleClick}>
+          { auth.isAuthenticated ? (
+            <PersonIcon style={styles.person} />
+          ) : (
+            <PersonOutlineIcon />
+          )}
+        </IconButton>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          { auth.isAuthenticated ? (
+            <MenuItem onClick={handleLogout}>Выйти</MenuItem>
+          ) : (
+            <MenuItem href="/login" onClick={changeRoute}>Войти</MenuItem>
+          )}
+        </Menu>
+      </div>
     </div>
   );
 };
 
-Navbar.propTypes = {
-  user: PropTypes.shape({
-    token: PropTypes.string,
-    userId: PropTypes.string,
-    email: PropTypes.string,
-    fullname: PropTypes.string,
-    address: PropTypes.string,
-    phone: PropTypes.number,
-  }),
-  logout: PropTypes.func,
-};
-
-Navbar.defaultProps = {
-  user: {},
-  logout: PropTypes.func,
+NavBar.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  auth: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user: getUser(state),
+  auth: state.auth,
 });
 
 const mapDispatchToProps = ({
-  logout,
+  setCurrentUser,
+  logoutUser,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

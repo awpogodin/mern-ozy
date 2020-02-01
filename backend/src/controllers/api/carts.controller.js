@@ -6,11 +6,18 @@ const isAdmin = require('../../middlewares/isAdmin.middleware');
 
 const router = new Router();
 
+
+// @route GET api/carts/
+// @desc Get all carts
+// @access Private
 router.get('/', auth, async (req, res) => {
   const carts = await Cart.find({});
   return res.json(carts);
 });
 
+// @route POST api/carts/
+// @desc Create cart
+// @access Private
 router.post('/', auth, async (req, res) => {
   try {
     const {
@@ -28,6 +35,9 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// @route GET api/carts/:id
+// @desc Get cart by id
+// @access Private
 router.get('/:id', auth, async (req, res) => {
   const cart = await Cart.findById(req.params.id);
   if (cart) {
@@ -36,6 +46,9 @@ router.get('/:id', auth, async (req, res) => {
   return res.status(404).end();
 });
 
+// @route PATCH api/carts/:id
+// @desc Update cart by id
+// @access Private
 router.patch('/:id', auth, async (req, res) => {
   try {
     const cart = await Cart.findById(req.params.id);
@@ -60,6 +73,9 @@ router.patch('/:id', auth, async (req, res) => {
   }
 });
 
+// @route DELETE api/carts/:id
+// @desc Delete cart by id
+// @access Private
 router.delete('/:id', [auth, isAdmin], async (req, res) => {
   try {
     const cart = await Cart.findById(req.params.id);

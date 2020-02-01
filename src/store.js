@@ -1,15 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  createStore, combineReducers, applyMiddleware, compose,
+  createStore, applyMiddleware, compose,
 } from 'redux';
 import storage from 'redux-persist/es/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
-import userReducer from './reducers/userReducer';
-
-const rootReducer = combineReducers({
-  userState: userReducer,
-});
+import rootReducer from './reducers';
 
 const persistConfig = {
   key: 'root',

@@ -1,16 +1,21 @@
 import React from 'react';
-import { Formik } from 'formik';
-import { TextField } from 'formik-material-ui';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useHttp } from '../../hooks/http.hook';
-import { getUser } from '../../selectors/userSelectors';
-import { login, logout } from '../../actions/userActions';
+import { connect } from 'react-redux';
+import { Formik } from 'formik';
+import { TextField } from 'formik-material-ui';
+import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import { setCurrentUser } from '../../actions/authActions';
+import setAuthToken from '../../utils/setAuthToken';
 
 const styles = {
+  form: {
+    maxWidth: '500px',
+    margin: '15px auto',
+  },
   formEl: {
     margin: '6px auto',
     width: '100%',
@@ -25,31 +30,43 @@ const initValues = {
 const validation = values => {
   const errors = {};
   if (!values.email) {
-    errors.email = 'Required';
+    errors.email = 'Введите email';
   } else if (
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Некорректный email';
   }
   if (!values.password || !values.password.trim()) {
-    errors.password = 'Required';
+    errors.password = 'Введите пароль';
   }
   return errors;
 };
 
 const LoginForm = (props) => {
-  const { request } = useHttp();
-
   const history = useHistory();
 
-  const onSubmit = async (values, { setSubmitting }) => {
-    try {
-      const data = await request('/api/auth/signin', 'POST', values);
-      props.login(data);
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
-    setSubmitting(false);
-    history.goBack();
+  const onSubmit = async (values, { setErrors, setSubmitting }) => {
+    axios
+      .post('/api/auth/login', values)
+      .then(res => {
+        // Save to localStorage
+
+        // Set token to localStorage
+        const { token } = res.data;
+        localStorage.setItem('jwtToken', token);
+        // Set token to Auth header
+        setAuthToken(token);
+        // Decode token to get user data
+        const decoded = jwtDecode(token);
+        // Set current user
+        props.setCurrentUser(decoded);
+        setSubmitting(false);
+        history.goBack();
+      })
+      .catch(err => {
+        setErrors(err.response.data);
+        setSubmitting(false);
+      });
   };
 
   return (
@@ -64,7 +81,7 @@ const LoginForm = (props) => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form>
+          <form style={styles.form}>
             <TextField
               name="email"
               type="email"
@@ -90,7 +107,7 @@ const LoginForm = (props) => {
               onClick={handleSubmit}
               style={styles.formEl}
             >
-            Submit
+              Войти
             </Button>
           </form>
         )}
@@ -100,31 +117,15 @@ const LoginForm = (props) => {
 };
 
 LoginForm.propTypes = {
-  user: PropTypes.shape({
-    token: PropTypes.string,
-    userId: PropTypes.string,
-    email: PropTypes.string,
-    fullname: PropTypes.string,
-    address: PropTypes.string,
-    phone: PropTypes.number,
-  }),
-  login: PropTypes.func,
-  logout: PropTypes.func,
-};
-
-LoginForm.defaultProps = {
-  user: {},
-  login: PropTypes.func,
-  logout: PropTypes.func,
+  setCurrentUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user: getUser(state),
+  auth: state.auth,
 });
 
 const mapDispatchToProps = ({
-  login,
-  logout,
+  setCurrentUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

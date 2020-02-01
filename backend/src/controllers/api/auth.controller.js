@@ -17,6 +17,11 @@ router.post(
     check('email', 'Некорректный email').isEmail(),
     check('password', 'Минимальная длина пароля 5 символов')
       .isLength({ min: 5 }),
+    check('name', 'Введите имя').exists(),
+    check('surname', 'Введите фамилию').exists(),
+    check('middleName', 'Введите отчество').exists(),
+    check('address', 'Введите адрес').exists(),
+    check('phone', 'Некорректный номер').isMobilePhone('ru-RU'),
   ],
   async (req, res) => {
     try {
@@ -30,18 +35,18 @@ router.post(
       }
 
       const {
-        email, password, fullname, address, phone,
+        email, password, name, surname, middleName, address, phone,
       } = req.body;
 
       const candidate = await User.findOne({ email });
 
       if (candidate) {
-        return res.status(400).json({ message: 'Такой пользователь уже существует' });
+        return res.status(400).json({ email: 'Пользователь уже зарегистрирован' });
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
       const user = new User({
-        email, password: hashedPassword, fullname, address, phone,
+        email, password: hashedPassword, name, surname, middleName, address, phone,
       });
 
       await user.save();
@@ -95,11 +100,13 @@ router.post(
       );
       const aboutUser = {
         email: user.email,
-        fullname: user.fullname,
+        name: user.name,
+        surname: user.surname,
+        middleName: user.middleName,
         address: user.address,
         phone: user.phone,
       };
-      res.json({ token, userId: user.id, ...aboutUser });
+      res.json({ token, userId: user.id, aboutUser });
     } catch (e) {
       res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

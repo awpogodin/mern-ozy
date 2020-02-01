@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
@@ -17,8 +17,17 @@ const styles = {
     margin: '15px auto',
   },
   formEl: {
-    margin: '6px auto',
+    margin: '10px auto',
     width: '100%',
+  },
+  regLink: {
+    display: 'block',
+    margin: '10px 0',
+    textAlign: 'right',
+    textDecoration: 'none',
+    color: '#03A9F4',
+    fontWeight: '300',
+    fontSize: '16px',
   },
 };
 
@@ -93,13 +102,14 @@ const LoginForm = (props) => {
             <br />
             <TextField
               type="password"
-              label="Password"
+              label="Пароль"
               name="password"
               variant="standard"
               style={styles.formEl}
             />
             {isSubmitting && <LinearProgress />}
             <br />
+            <Link style={styles.regLink} to="/register">Нет аккаунта? Зарегистрироваться</Link>
             <Button
               variant="outlined"
               color="primary"
@@ -118,6 +128,7 @@ const LoginForm = (props) => {
 
 LoginForm.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
+  // logoutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -126,6 +137,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
   setCurrentUser,
+  // logoutUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

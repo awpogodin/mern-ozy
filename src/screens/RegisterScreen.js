@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Title from '../components/Title';
-import LoginForm from '../components/forms/LoginForm';
+import RegisterForm from '../components/forms/RegisterForm';
 
-const LoginScreen = (props) => {
+const RegisterScreen = (props) => {
   const { auth } = props;
 
   if (auth.isAuthenticated) {
@@ -15,19 +15,21 @@ const LoginScreen = (props) => {
   }
   return (
     <>
-      <Title title="Авторизация" />
-      <LoginForm />
+      <Title title="Регистрация" />
+      <RegisterForm />
     </>
   );
 };
 
-LoginScreen.propTypes = {
+RegisterScreen.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   auth: PropTypes.any.isRequired,
 };
+
 
 const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(LoginScreen);
+
+export default connect(mapStateToProps, {})(RegisterScreen);

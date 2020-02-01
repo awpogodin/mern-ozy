@@ -18,7 +18,7 @@ const Title = ({ title = 'Heading', children }) => (
 
 Title.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.node,
 };
 
 Title.defaultProps = {

@@ -2,17 +2,6 @@ import setAuthToken from '../utils/setAuthToken';
 
 import { SET_CURRENT_USER, USER_LOADING } from './types';
 
-// Register User
-// export const registerUser = (userData, history) => dispatch => {
-//   axios
-//     .post('/api/auth/register', userData)
-//     .then(() => history.push('/login'))
-//     .catch(err => dispatch({
-//       type: GET_ERRORS,
-//       payload: err.response.data,
-//     }));
-// };
-
 // Set logged in user
 export const setCurrentUser = decoded => ({
   type: SET_CURRENT_USER,
@@ -20,8 +9,9 @@ export const setCurrentUser = decoded => ({
 });
 
 // User loading
-export const setUserLoading = () => ({
+export const setUserLoading = ({ status }) => ({
   type: USER_LOADING,
+  payload: status,
 });
 
 // Log user out

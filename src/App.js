@@ -8,6 +8,7 @@ import {
 import ItemsScreen from './screens/ItemsScreen';
 import NavBar from './components/NavBar';
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
     <Router>
       <NavBar />
       <Switch>
+        <Route path="/register">
+          <RegisterScreen />
+        </Route>
         <Route path="/login">
           <LoginScreen />
         </Route>

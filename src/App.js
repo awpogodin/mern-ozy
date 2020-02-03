@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import jwtDecode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 import ItemsScreen from './screens/ItemsScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -23,14 +23,19 @@ class App extends React.Component {
       const token = jwtStorage.getItem();
       setAuthToken(token);
       // Decode token and get user info and exp
-      const decoded = jwtDecode(token);
-      // Set user and isAuthenticated
-      setCurrentUser(decoded);
-      // Check for expired token
-      const currentTime = Date.now() / 1000; // to get in milliseconds
-      if (decoded.exp < currentTime) {
-        // Logout user
+      try {
+        const decoded = jwt.verify(token, 'iloveciderilovecider');
+        // Set user and isAuthenticated
+        setCurrentUser(decoded);
+        // Check for expired token
+        const currentTime = Date.now() / 1000; // to get in milliseconds
+        if (decoded.exp < currentTime) {
+          // Logout user
+          logoutUser();
+        }
+      } catch (e) {
         logoutUser();
+        // throw new Error(e.message);
       }
     } else {
       logoutUser();

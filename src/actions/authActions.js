@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 import setAuthToken from '../utils/setAuthToken';
 
 import { SET_CURRENT_USER, USER_LOADING } from './types';
@@ -21,8 +21,12 @@ export const setUserLoading = ({ status }) => ({
 export const loginUser = token => dispatch => {
   jwtStorage.setItem(token);
   setAuthToken(token);
-  const decoded = jwtDecode(token);
-  dispatch(setCurrentUser(decoded));
+  try {
+    const decoded = jwt.verify(token, 'iloveciderilovecider');
+    dispatch(setCurrentUser(decoded));
+  } catch (e) {
+    throw new Error(e.message);
+  }
 };
 
 // Log user out

@@ -8,6 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PersonIcon from '@material-ui/icons/Person';
+import Badge from '@material-ui/core/Badge';
 import { logoutUser, setCurrentUser } from '../actions/authActions';
 
 const styles = {
@@ -61,7 +62,9 @@ const NavBar = (props) => {
       </div>
       <div>
         <IconButton>
-          <ShoppingCartOutlinedIcon />
+          <Badge badgeContent={3} color="secondary">
+            <ShoppingCartOutlinedIcon />
+          </Badge>
         </IconButton>
         <IconButton onClick={handleClick}>
           { auth.isAuthenticated ? (

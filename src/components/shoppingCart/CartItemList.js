@@ -1,7 +1,7 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import CartItem from './CartItem';
 import Spinner from '../Spinner';
-import Item from './Item';
 
 const styles = {
   spinner: {
@@ -16,21 +16,13 @@ const styles = {
     fontWeight: '300',
     fontSize: '24px',
   },
-  itemList: {
-    display: 'flex',
-    margin: '30px auto',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
 };
 
-const ItemsList = (props) => {
+const CartItemList = (props) => {
   const { items, loading } = props;
 
   return (
-    <div style={styles.itemList}>
+    <div>
       {/* eslint-disable-next-line no-nested-ternary */}
       {loading ? (
         <div style={styles.spinner}>
@@ -39,25 +31,24 @@ const ItemsList = (props) => {
 
       )
         : (items.length > 0 ? (items.map((item) => (
-          <Item
+          <CartItem
             item={item}
             key={item.id}
           />
         ))) : (
-          <span style={styles.noItems}>Нет товаров</span>
+          <span style={styles.noItems}>Корзина пуста</span>
         ))}
     </div>
   );
 };
 
-ItemsList.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
+CartItemList.propTypes = {
   items: PropTypes.array,
   loading: PropTypes.bool.isRequired,
 };
 
-ItemsList.defaultProps = {
+CartItemList.defaultProps = {
   items: [],
 };
 
-export default ItemsList;
+export default CartItemList;

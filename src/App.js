@@ -15,6 +15,7 @@ import NavBar from './components/Navbar';
 import jwtStorage from './utils/jwtStorage';
 
 import Config from './config/config';
+import ShoppingCartScreen from './screens/ShoppingCartScreen';
 
 class App extends React.Component {
   componentDidMount() {
@@ -68,6 +69,9 @@ class App extends React.Component {
           </Route>
           <Route path="/category/accessories">
             <ItemsScreen category="accessories" />
+          </Route>
+          <Route path="/cart">
+            <ShoppingCartScreen />
           </Route>
           <Route path="*">
             <Redirect to="/" />

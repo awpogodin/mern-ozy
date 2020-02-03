@@ -1,15 +1,23 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Badge from '@material-ui/core/Badge';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
-import { setShoppingCart } from '../actions/shoppingCartActions';
+import { setShoppingCart } from '../../actions/shoppingCartActions';
 
 const ShoppingCartBtn = props => {
+  const history = useHistory();
   const { shoppingCart } = props;
+
+  const handleClick = () => {
+    const path = '/cart';
+    history.push(path);
+  };
+
   return (
-    <IconButton>
+    <IconButton onClick={handleClick}>
       <Badge badgeContent={shoppingCart.items.length} color="secondary">
         <ShoppingCartOutlinedIcon />
       </Badge>

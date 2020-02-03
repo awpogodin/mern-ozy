@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import { logoutUser, setCurrentUser } from '../actions/authActions';
-import ShoppingCartBtn from './ShoppingCartBtn';
+import ShoppingCartBtn from './shoppingCart/ShoppingCartBtn';
 
 const styles = {
   navbar: {

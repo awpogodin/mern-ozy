@@ -11,14 +11,14 @@ import { logoutUser, setCurrentUser } from './actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 import NavBar from './components/Navbar';
 
+const JWT_TOKEN = 'jwtToken';
 
 function App(props) {
   useEffect(() => {
     // Check for token to keep user logged in
-    console.log(localStorage.jwtToken);
-    if (localStorage.jwtToken) {
+    if (sessionStorage.getItem(JWT_TOKEN)) {
       // Set auth token header auth
-      const token = localStorage.jwtToken;
+      const token = sessionStorage.getItem(JWT_TOKEN);
       setAuthToken(token);
       // Decode token and get user info and exp
       const decoded = jwtDecode(token);

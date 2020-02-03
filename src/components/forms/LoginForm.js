@@ -7,9 +7,7 @@ import { TextField } from 'formik-material-ui';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import { setCurrentUser } from '../../actions/authActions';
-import setAuthToken from '../../utils/setAuthToken';
+import { loginUser } from '../../actions/authActions';
 
 const styles = {
   form: {
@@ -58,17 +56,8 @@ const LoginForm = (props) => {
     axios
       .post('/api/auth/login', values)
       .then(res => {
-        // Save to localStorage
-
-        // Set token to localStorage
         const { token } = res.data;
-        localStorage.setItem('jwtToken', token);
-        // Set token to Auth header
-        setAuthToken(token);
-        // Decode token to get user data
-        const decoded = jwtDecode(token);
-        // Set current user
-        props.setCurrentUser(decoded);
+        props.loginUser(token);
         setSubmitting(false);
         history.goBack();
       })
@@ -127,8 +116,7 @@ const LoginForm = (props) => {
 };
 
 LoginForm.propTypes = {
-  setCurrentUser: PropTypes.func.isRequired,
-  // logoutUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -136,8 +124,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = ({
-  setCurrentUser,
-  // logoutUser,
+  loginUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

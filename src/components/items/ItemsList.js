@@ -29,9 +29,9 @@ const styles = {
 const ItemsList = (props) => {
   const { items, loading } = props;
 
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
+  // useEffect(() => {
+  //   console.log(items);
+  // }, [items]);
 
   return (
     <div style={styles.itemList}>

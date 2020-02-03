@@ -3,13 +3,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PersonIcon from '@material-ui/icons/Person';
-import Badge from '@material-ui/core/Badge';
 import { logoutUser, setCurrentUser } from '../actions/authActions';
+import ShoppingCartBtn from './ShoppingCartBtn';
 
 const styles = {
   navbar: {
@@ -52,6 +51,7 @@ const NavBar = (props) => {
     props.logoutUser();
     handleClose();
   };
+
   const { auth } = props;
   return (
     <div style={styles.navbar}>
@@ -61,11 +61,7 @@ const NavBar = (props) => {
         </Link>
       </div>
       <div>
-        <IconButton>
-          <Badge badgeContent={3} color="secondary">
-            <ShoppingCartOutlinedIcon />
-          </Badge>
-        </IconButton>
+        <ShoppingCartBtn />
         <IconButton onClick={handleClick}>
           { auth.isAuthenticated ? (
             <PersonIcon style={styles.person} />

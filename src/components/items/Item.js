@@ -3,6 +3,8 @@ import './item.css';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { connect } from 'react-redux';
+import { addToCart } from '../../actions/shoppingCartActions';
 
 const styles = {
   card: {
@@ -45,6 +47,11 @@ const styles = {
 
 const Item = (props) => {
   const { item } = props;
+
+  const handleAddToCart = () => {
+    props.addToCart(item);
+  };
+
   return (
     <div style={styles.card} className="item">
       <img style={styles.cardImg} src={item.imgUrl} alt="" />
@@ -60,7 +67,7 @@ const Item = (props) => {
             &nbsp;
             ₽
         </span>
-        <IconButton color="secondary" aria-label="Добавить в корзину">
+        <IconButton onClick={handleAddToCart} color="secondary" aria-label="Добавить в корзину">
           <AddShoppingCartIcon />
         </IconButton>
       </div>
@@ -70,13 +77,30 @@ const Item = (props) => {
 
 Item.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.string,
+    _id: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,
     category: PropTypes.string,
     imgUrl: PropTypes.string,
-    price: PropTypes.string,
+    price: PropTypes.number,
   }).isRequired,
+  shoppingCart: PropTypes.shape({
+    _id: PropTypes.string,
+    customerId: PropTypes.string,
+    items: PropTypes.array,
+    completed: PropTypes.bool,
+    address: PropTypes.string,
+    addressType: PropTypes.string,
+  }).isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
-export default Item;
+const mapStateToProps = state => ({
+  shoppingCart: state.shoppingCart,
+});
+
+const mapDispatchToProps = ({
+  addToCart,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item);

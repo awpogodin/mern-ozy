@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import createStore from './store';
 import Spinner from './components/Spinner';
 
-const persistingEnabled = true;
+const persistingEnabled = false;
 const { store, persistor } = createStore(persistingEnabled);
 
 

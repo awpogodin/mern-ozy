@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Redirect, Route, Switch,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
@@ -49,14 +51,26 @@ class App extends React.Component {
       <Router>
         <NavBar />
         <Switch>
+          <Route exact path="/">
+            <Redirect to="/category/phones" />
+          </Route>
           <Route path="/register">
             <RegisterScreen />
           </Route>
           <Route path="/login">
             <LoginScreen />
           </Route>
-          <Route path="/">
-            <ItemsScreen />
+          <Route path="/category/phones">
+            <ItemsScreen category="phones" />
+          </Route>
+          <Route path="/category/tablets">
+            <ItemsScreen category="tablets" />
+          </Route>
+          <Route path="/category/accessories">
+            <ItemsScreen category="accessories" />
+          </Route>
+          <Route path="*">
+            <Redirect to="/" />
           </Route>
         </Switch>
       </Router>

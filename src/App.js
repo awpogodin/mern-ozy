@@ -10,15 +10,14 @@ import RegisterScreen from './screens/RegisterScreen';
 import { logoutUser, setCurrentUser } from './actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 import NavBar from './components/Navbar';
-
-const JWT_TOKEN = 'jwtToken';
+import jwtStorage from './utils/jwtStorage';
 
 function App(props) {
   useEffect(() => {
     // Check for token to keep user logged in
-    if (sessionStorage.getItem(JWT_TOKEN)) {
+    if (jwtStorage.getItem()) {
       // Set auth token header auth
-      const token = sessionStorage.getItem(JWT_TOKEN);
+      const token = jwtStorage.getItem();
       setAuthToken(token);
       // Decode token and get user info and exp
       const decoded = jwtDecode(token);

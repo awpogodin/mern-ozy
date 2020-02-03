@@ -12,6 +12,8 @@ import setAuthToken from './utils/setAuthToken';
 import NavBar from './components/Navbar';
 import jwtStorage from './utils/jwtStorage';
 
+import Config from './config/config';
+
 class App extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line no-shadow
@@ -24,7 +26,7 @@ class App extends React.Component {
       setAuthToken(token);
       // Decode token and get user info and exp
       try {
-        const decoded = jwt.verify(token, 'iloveciderilovecider');
+        const decoded = jwt.verify(token, Config.jwtSecret);
         // Set user and isAuthenticated
         setCurrentUser(decoded);
         // Check for expired token

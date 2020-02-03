@@ -4,6 +4,7 @@ import setAuthToken from '../utils/setAuthToken';
 import { SET_CURRENT_USER, USER_LOADING } from './types';
 import jwtStorage from '../utils/jwtStorage';
 
+import Config from '../config/config';
 
 // Set logged in user
 export const setCurrentUser = decoded => ({
@@ -22,7 +23,7 @@ export const loginUser = token => dispatch => {
   jwtStorage.setItem(token);
   setAuthToken(token);
   try {
-    const decoded = jwt.verify(token, 'iloveciderilovecider');
+    const decoded = jwt.verify(token, Config.jwtSecret);
     dispatch(setCurrentUser(decoded));
   } catch (e) {
     throw new Error(e.message);

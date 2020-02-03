@@ -18,6 +18,7 @@ const styles = {
   },
   itemList: {
     display: 'flex',
+    margin: '10px auto',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',

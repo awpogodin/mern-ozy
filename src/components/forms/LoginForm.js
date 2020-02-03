@@ -57,8 +57,8 @@ const LoginForm = (props) => {
       .post('/api/auth/login', values)
       .then(res => {
         const { token } = res.data;
-        props.loginUser(token);
         setSubmitting(false);
+        props.loginUser(token);
         history.goBack();
       })
       .catch(err => {

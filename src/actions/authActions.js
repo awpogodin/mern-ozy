@@ -1,10 +1,13 @@
 import jwt from 'jsonwebtoken';
+import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 
 import { SET_CURRENT_USER, USER_LOADING } from './types';
 import jwtStorage from '../utils/jwtStorage';
 
 import Config from '../config/config';
+
+const AUTH_URL = '/api/auth';
 
 // Set logged in user
 export const setCurrentUser = decoded => ({
@@ -23,8 +26,18 @@ export const loginUser = token => dispatch => {
   jwtStorage.setItem(token);
   setAuthToken(token);
   try {
-    const decoded = jwt.verify(token, Config.jwtSecret);
-    dispatch(setCurrentUser(decoded));
+    const user = jwt.verify(token, Config.jwtSecret);
+    axios
+      .get(AUTH_URL)
+      .then(res => {
+        const {
+          email, name, surname, middleName, address, phone,
+        } = res.data;
+        dispatch(setCurrentUser({
+          ...user, email, name, surname, middleName, address, phone,
+        }));
+      })
+      .catch(() => {});
   } catch (e) {
     throw new Error(e.message);
   }

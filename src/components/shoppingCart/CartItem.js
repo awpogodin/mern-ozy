@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { itemProps } from '../../propTypes/proptypes';
 
 // const styles = {
 //
@@ -15,14 +15,7 @@ const CartItem = (props) => {
 };
 
 CartItem.propTypes = {
-  item: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    category: PropTypes.string,
-    imgUrl: PropTypes.string,
-    price: PropTypes.number,
-  }).isRequired,
+  item: itemProps.isRequired,
 };
 
 export default CartItem;

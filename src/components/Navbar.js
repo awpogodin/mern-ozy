@@ -9,6 +9,7 @@ import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import { logoutUser, setCurrentUser } from '../actions/authActions';
 import ShoppingCartBtn from './shoppingCart/ShoppingCartBtn';
+import { authProps } from '../propTypes/proptypes';
 
 const styles = {
   navbar: {
@@ -53,6 +54,7 @@ const NavBar = (props) => {
   };
 
   const { auth } = props;
+  const { user } = auth;
   return (
     <div style={styles.navbar}>
       <div>
@@ -78,6 +80,7 @@ const NavBar = (props) => {
         >
           { auth.isAuthenticated ? (
             <div>
+              <MenuItem style={{ fontWeight: '500' }} href="/profile" onClick={changeRoute}>{user.name}</MenuItem>
               <MenuItem onClick={handleLogout}>Выйти</MenuItem>
             </div>
           ) : (
@@ -92,8 +95,7 @@ const NavBar = (props) => {
 };
 
 NavBar.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  auth: PropTypes.object.isRequired,
+  auth: authProps.isRequired,
   logoutUser: PropTypes.func.isRequired,
 };
 

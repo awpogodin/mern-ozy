@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { connect } from 'react-redux';
 import { addToCart } from '../../actions/shoppingCartActions';
+import { shoppingCartProps, itemProps } from '../../propTypes/proptypes';
 
 const styles = {
   card: {
@@ -85,22 +86,8 @@ const Item = (props) => {
 };
 
 Item.propTypes = {
-  item: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    category: PropTypes.string,
-    imgUrl: PropTypes.string,
-    price: PropTypes.number,
-  }).isRequired,
-  shoppingCart: PropTypes.shape({
-    _id: PropTypes.string,
-    customerId: PropTypes.string,
-    items: PropTypes.array,
-    completed: PropTypes.bool,
-    address: PropTypes.string,
-    addressType: PropTypes.string,
-  }).isRequired,
+  item: itemProps.isRequired,
+  shoppingCart: shoppingCartProps.isRequired,
   addToCart: PropTypes.func.isRequired,
 };
 

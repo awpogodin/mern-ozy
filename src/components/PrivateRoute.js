@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { authProps } from '../propTypes/proptypes';
 
 const PrivateRoute = ({ auth, children }) => {
   if (auth.isAuthenticated) {
@@ -17,8 +18,7 @@ const PrivateRoute = ({ auth, children }) => {
 };
 
 PrivateRoute.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  auth: PropTypes.object.isRequired,
+  auth: authProps.isRequired,
   children: PropTypes.node.isRequired,
 };
 

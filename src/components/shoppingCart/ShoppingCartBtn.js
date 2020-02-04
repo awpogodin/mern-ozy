@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Badge from '@material-ui/core/Badge';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import { setShoppingCart } from '../../actions/shoppingCartActions';
+import { authProps, shoppingCartProps } from '../../propTypes/proptypes';
 
 const ShoppingCartBtn = props => {
   const history = useHistory();
@@ -26,16 +26,8 @@ const ShoppingCartBtn = props => {
 };
 
 ShoppingCartBtn.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  auth: PropTypes.object.isRequired,
-  shoppingCart: PropTypes.shape({
-    id: PropTypes.string,
-    customerId: PropTypes.string,
-    items: PropTypes.array,
-    completed: PropTypes.bool,
-    address: PropTypes.string,
-    addressType: PropTypes.string,
-  }).isRequired,
+  auth: authProps.isRequired,
+  shoppingCart: shoppingCartProps.isRequired,
 };
 
 const mapStateToProps = state => ({

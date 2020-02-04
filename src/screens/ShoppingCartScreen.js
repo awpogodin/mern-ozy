@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setShoppingCart } from '../actions/shoppingCartActions';
 import Title from '../components/Title';
 import CartItemList from '../components/shoppingCart/CartItemList';
+import { authProps, shoppingCartProps } from '../propTypes/proptypes';
+
 
 const ShoppingCartScreen = (props) => {
   const [loading, setLoading] = React.useState(true);
@@ -27,16 +28,8 @@ const ShoppingCartScreen = (props) => {
 };
 
 ShoppingCartScreen.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  auth: PropTypes.object.isRequired,
-  shoppingCart: PropTypes.shape({
-    id: PropTypes.string,
-    customerId: PropTypes.string,
-    items: PropTypes.array,
-    completed: PropTypes.bool,
-    address: PropTypes.string,
-    addressType: PropTypes.string,
-  }).isRequired,
+  auth: authProps.isRequired,
+  shoppingCart: shoppingCartProps.isRequired,
 };
 
 const mapStateToProps = state => ({

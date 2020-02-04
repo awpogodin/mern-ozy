@@ -12,6 +12,8 @@ import { loginUser, logoutUser } from './actions/authActions';
 import NavBar from './components/Navbar';
 import jwtStorage from './utils/jwtStorage';
 import ShoppingCartScreen from './screens/ShoppingCartScreen';
+import PrivateRoute from './components/PrivateRoute';
+import ProfileScreen from './screens/ProfileScreen';
 
 class App extends React.Component {
   componentDidMount() {
@@ -42,6 +44,11 @@ class App extends React.Component {
           <Route path="/login">
             <LoginScreen />
           </Route>
+          <Route path="/profile">
+            <PrivateRoute>
+              <ProfileScreen />
+            </PrivateRoute>
+          </Route>
           <Route path="/category/phones">
             <ItemsScreen category="phones" />
           </Route>
@@ -53,9 +60,6 @@ class App extends React.Component {
           </Route>
           <Route path="/cart">
             <ShoppingCartScreen />
-          </Route>
-          <Route path="*">
-            <Redirect to="/" />
           </Route>
         </Switch>
       </Router>

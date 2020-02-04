@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Title from '../components/Title';
 import RegisterForm from '../components/forms/RegisterForm';
+import { authProps } from '../propTypes/proptypes';
 
 const RegisterScreen = (props) => {
   const { auth } = props;
@@ -22,8 +22,7 @@ const RegisterScreen = (props) => {
 };
 
 RegisterScreen.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  auth: PropTypes.any.isRequired,
+  auth: authProps.isRequired,
 };
 
 

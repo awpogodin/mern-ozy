@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Title from '../components/Title';
 import LoginForm from '../components/forms/LoginForm';
+import { authProps } from '../propTypes/proptypes';
 
 const LoginScreen = (props) => {
   const { auth } = props;
@@ -22,8 +22,7 @@ const LoginScreen = (props) => {
 };
 
 LoginScreen.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  auth: PropTypes.any.isRequired,
+  auth: authProps.isRequired,
 };
 
 const mapStateToProps = state => ({

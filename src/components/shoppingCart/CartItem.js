@@ -16,7 +16,7 @@ const styles = {
   item: {
     display: 'flex',
     margin: '15px 0',
-    borderRadius: '5px',
+    borderRadius: '15px',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -119,13 +119,12 @@ const CartItem = (props) => {
         </div>
       </div>
       <div style={styles.right}>
-        <IconButton onClick={handleAdd} aria-label="add">
-          <AddCircleOutlineIcon />
-        </IconButton>
         <IconButton onClick={handleRemove} aria-label="remove">
           <RemoveCircleOutlineIcon />
         </IconButton>
-
+        <IconButton onClick={handleAdd} aria-label="add">
+          <AddCircleOutlineIcon />
+        </IconButton>
         <span style={styles.itemCount}>
           {count}
           x

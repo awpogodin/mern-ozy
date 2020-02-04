@@ -1,9 +1,21 @@
 import { createSelector } from 'reselect';
 
-export const getCuttentShoppingCart = ({ shoppingCart }) => shoppingCart.items;
+export const getCurrentShoppingCart = ({ shoppingCart }) => shoppingCart.items;
+
+export const getCountOfItems = createSelector(
+  getCurrentShoppingCart,
+  items => {
+    let count = 0;
+    items.forEach(item => {
+      count += item.count;
+    });
+    return count;
+  },
+);
+
 
 export const getTotalOrderAmount = createSelector(
-  getCuttentShoppingCart,
+  getCurrentShoppingCart,
   items => {
     let sum = 0;
     items.forEach(item => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Badge from '@material-ui/core/Badge';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
@@ -6,10 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import { setShoppingCart } from '../../actions/shoppingCartActions';
 import { authProps, shoppingCartProps } from '../../propTypes/proptypes';
+import { getCountOfItems } from '../../selectors/shoppingCartSelectors';
 
 const ShoppingCartBtn = props => {
   const history = useHistory();
-  const { shoppingCart } = props;
+  const { countOfItems } = props;
 
   const handleClick = () => {
     const path = '/cart';
@@ -18,7 +20,7 @@ const ShoppingCartBtn = props => {
 
   return (
     <IconButton onClick={handleClick}>
-      <Badge badgeContent={shoppingCart.items.length} color="secondary">
+      <Badge badgeContent={countOfItems} color="secondary">
         <ShoppingCartOutlinedIcon />
       </Badge>
     </IconButton>
@@ -26,17 +28,11 @@ const ShoppingCartBtn = props => {
 };
 
 ShoppingCartBtn.propTypes = {
-  auth: authProps.isRequired,
-  shoppingCart: shoppingCartProps.isRequired,
+  countOfItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  shoppingCart: state.shoppingCart,
+  countOfItems: getCountOfItems(state),
 });
 
-const mapDispatchToProps = ({
-  setShoppingCart,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCartBtn);
+export default connect(mapStateToProps, {})(ShoppingCartBtn);

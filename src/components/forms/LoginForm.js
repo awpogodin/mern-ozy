@@ -69,9 +69,9 @@ const LoginForm = (props) => {
 
   const onSubmit = async (values, { setErrors, setSubmitting }) => {
     setSubmitting(true);
-    axios
+    await axios
       .post('/api/auth/login', values)
-      .then(res => {
+      .then(async res => {
         const { token } = res.data;
         props.loginUser(token);
         setReadyToBack(true);
@@ -79,7 +79,6 @@ const LoginForm = (props) => {
       })
       .catch(err => {
         setErrors(err.response.data);
-        setSubmitting(false);
       });
   };
 

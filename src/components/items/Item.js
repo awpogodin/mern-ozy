@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { connect } from 'react-redux';
-import { addToCart } from '../../actions/shoppingCartActions';
+import { AddItemToCart } from '../../actions/shoppingCartActions';
 import { shoppingCartProps, itemProps } from '../../propTypes/proptypes';
 
 const styles = {
@@ -48,10 +48,11 @@ const styles = {
 };
 
 const Item = (props) => {
-  const { item } = props;
+  const { item, shoppingCart } = props;
+
 
   const handleAddToCart = () => {
-    props.addToCart(item);
+    props.AddItemToCart(item, shoppingCart);
   };
 
   const getStyleWithBackgroundImg = () => {
@@ -88,7 +89,7 @@ const Item = (props) => {
 Item.propTypes = {
   item: itemProps.isRequired,
   shoppingCart: shoppingCartProps.isRequired,
-  addToCart: PropTypes.func.isRequired,
+  AddItemToCart: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -96,7 +97,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = ({
-  addToCart,
+  AddItemToCart,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Item);

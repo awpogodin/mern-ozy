@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from 'axios';
 import { loginUser } from '../../actions/authActions';
+import { authProps } from '../../propTypes/proptypes';
 
 const styles = {
   form: {
@@ -50,16 +51,31 @@ const validation = values => {
 };
 
 const LoginForm = (props) => {
+  const [readyToBack, setReadyToBack] = React.useState(false);
   const history = useHistory();
+  const { auth } = props;
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      history.push('/');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (readyToBack && auth.isAuthenticated) {
+      history.goBack();
+    }
+  }, [auth]);
 
   const onSubmit = async (values, { setErrors, setSubmitting }) => {
+    setSubmitting(true);
     axios
       .post('/api/auth/login', values)
       .then(res => {
         const { token } = res.data;
-        setSubmitting(false);
         props.loginUser(token);
-        history.goBack();
+        setReadyToBack(true);
+        setSubmitting(false);
       })
       .catch(err => {
         setErrors(err.response.data);
@@ -117,6 +133,7 @@ const LoginForm = (props) => {
 
 LoginForm.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  auth: authProps.isRequired,
 };
 
 const mapStateToProps = state => ({

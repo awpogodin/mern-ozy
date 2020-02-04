@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { authProps } from '../propTypes/proptypes';
 
 const PrivateRoute = ({ auth, children }) => {
-  if (auth.isAuthenticated) {
-    return (
-      <>
-        {children}
-      </>
-    );
-  }
+  const { isAuthenticated } = auth;
+  const location = useLocation();
+  const oldPath = location.pathname;
+
   return (
-    <Redirect to="/login" />
+    <>
+      {isAuthenticated ? (
+        children
+      ) : (
+        <Redirect push from={oldPath} to="/login" />
+      )}
+    </>
   );
 };
 

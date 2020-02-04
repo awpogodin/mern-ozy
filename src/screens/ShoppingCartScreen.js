@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 import { setShoppingCart } from '../actions/shoppingCartActions';
 import Title from '../components/Title';
 import CartItemList from '../components/shoppingCart/CartItemList';
@@ -8,9 +10,22 @@ import { authProps, shoppingCartProps } from '../propTypes/proptypes';
 import { getTotalOrderAmount } from '../selectors/shoppingCartSelectors';
 import CartTotalAmount from '../components/shoppingCart/CartTotalAmount';
 
+const styles = {
+  btns: {
+    display: 'flex',
+    marginTop: '50px',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'end',
+  },
+  btnForward: {
+    marginLeft: 'auto',
+  },
+};
 
 const ShoppingCartScreen = (props) => {
   const [loading, setLoading] = React.useState(true);
+  const history = useHistory();
   const { auth, shoppingCart, totalOrderAmount } = props;
   const { items } = shoppingCart;
 
@@ -18,12 +33,19 @@ const ShoppingCartScreen = (props) => {
     setLoading(false);
   }, []);
 
+  const handleForward = () => {
+    history.push('/delivery');
+  };
+
   return (
-    <div>
+    <>
       <Title title="Корзина" />
       <CartItemList items={items} loading={loading} />
       <CartTotalAmount totalAmount={totalOrderAmount} />
-    </div>
+      <div style={styles.btns}>
+        <Button onClick={handleForward} style={styles.btnForward} color="primary">Продолжить</Button>
+      </div>
+    </>
   );
 };
 

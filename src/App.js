@@ -14,6 +14,7 @@ import jwtStorage from './utils/jwtStorage';
 import ShoppingCartScreen from './screens/ShoppingCartScreen';
 import PrivateRoute from './components/PrivateRoute';
 import ProfileScreen from './screens/ProfileScreen';
+import DeliveryScreen from "./screens/DeliveryScreen";
 
 class App extends React.Component {
   componentDidMount() {
@@ -35,8 +36,22 @@ class App extends React.Component {
       <Router>
         <NavBar />
         <Switch>
-          <Route exact path="/">
-            <Redirect to="/category/phones" />
+          <Route path="/category/phones">
+            <ItemsScreen category="phones" />
+          </Route>
+          <Route path="/category/tablets">
+            <ItemsScreen category="tablets" />
+          </Route>
+          <Route path="/category/accessories">
+            <ItemsScreen category="accessories" />
+          </Route>
+          <Route path="/delivery">
+            <PrivateRoute>
+              <DeliveryScreen />
+            </PrivateRoute>
+          </Route>
+          <Route path="/cart">
+            <ShoppingCartScreen />
           </Route>
           <Route path="/register">
             <RegisterScreen />
@@ -49,17 +64,8 @@ class App extends React.Component {
               <ProfileScreen />
             </PrivateRoute>
           </Route>
-          <Route path="/category/phones">
-            <ItemsScreen category="phones" />
-          </Route>
-          <Route path="/category/tablets">
-            <ItemsScreen category="tablets" />
-          </Route>
-          <Route path="/category/accessories">
-            <ItemsScreen category="accessories" />
-          </Route>
-          <Route path="/cart">
-            <ShoppingCartScreen />
+          <Route path="/">
+            <Redirect to="/category/phones" />
           </Route>
         </Switch>
       </Router>

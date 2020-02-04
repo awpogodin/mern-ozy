@@ -14,15 +14,6 @@ export const authProps = PropTypes.shape({
   }),
 });
 
-export const shoppingCartProps = PropTypes.shape({
-  id: PropTypes.string,
-  customerId: PropTypes.string,
-  items: PropTypes.array,
-  completed: PropTypes.bool,
-  address: PropTypes.string,
-  addressType: PropTypes.string,
-});
-
 export const itemProps = PropTypes.shape({
   _id: PropTypes.string,
   name: PropTypes.string,
@@ -30,4 +21,23 @@ export const itemProps = PropTypes.shape({
   category: PropTypes.string,
   imgUrl: PropTypes.string,
   price: PropTypes.number,
+});
+
+export const shoppingCartItemsProps = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  description: PropTypes.string,
+  imgUrl: PropTypes.string,
+  category: PropTypes.string,
+  price: PropTypes.number,
+  count: PropTypes.number,
+}));
+
+export const shoppingCartProps = PropTypes.shape({
+  id: PropTypes.string,
+  customerId: PropTypes.string,
+  items: shoppingCartItemsProps,
+  completed: PropTypes.bool,
+  address: PropTypes.string,
+  addressType: PropTypes.string,
 });

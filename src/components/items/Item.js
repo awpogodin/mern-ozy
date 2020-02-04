@@ -6,6 +6,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { connect } from 'react-redux';
 import { AddItemToCart } from '../../actions/shoppingCartActions';
 import { shoppingCartProps, itemProps } from '../../propTypes/proptypes';
+import prettify from "../../utils/prettifyNum";
 
 const styles = {
   card: {
@@ -74,7 +75,7 @@ const Item = (props) => {
       </div>
       <div style={styles.priceBlock}>
         <span style={styles.price}>
-          {item.price}
+          {prettify(item.price)}
             &nbsp;
             ₽
         </span>

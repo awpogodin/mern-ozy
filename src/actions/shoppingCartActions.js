@@ -24,7 +24,6 @@ export const AddItemToCart = (newItem, cart) => dispatch => {
       }
       return cartItem;
     });
-    console.log(updatedItems);
     dispatch(pushItemsToCart(updatedItems));
   } else {
     const updatedItems = [
@@ -49,10 +48,15 @@ export const removeItemFromCart = (removableItem, cart) => dispatch => {
       }
       return cartItem;
     });
-    console.log(updatedItems);
     dispatch(pushItemsToCart(updatedItems));
   } else {
     const updatedItems = items.filter(item => item.id !== removableItem.id);
     dispatch(pushItemsToCart(updatedItems));
   }
+};
+
+export const removeAllOfItemFromCart = (removableItem, cart) => dispatch => {
+  const { items } = cart;
+  const updatedItems = items.filter(item => item.id !== removableItem.id);
+  dispatch(pushItemsToCart(updatedItems));
 };

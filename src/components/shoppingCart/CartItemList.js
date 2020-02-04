@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CartItem from './CartItem';
 import Spinner from '../Spinner';
+import { shoppingCartItemsProps } from '../../propTypes/proptypes';
 
 const styles = {
+  root: {
+    margin: '100px 0',
+  },
   spinner: {
     display: 'block',
     margin: '60px auto',
@@ -22,7 +26,7 @@ const CartItemList = (props) => {
   const { items, loading } = props;
 
   return (
-    <div>
+    <div style={styles.root}>
       {/* eslint-disable-next-line no-nested-ternary */}
       {loading ? (
         <div style={styles.spinner}>
@@ -43,7 +47,7 @@ const CartItemList = (props) => {
 };
 
 CartItemList.propTypes = {
-  items: PropTypes.array,
+  items: shoppingCartItemsProps,
   loading: PropTypes.bool.isRequired,
 };
 

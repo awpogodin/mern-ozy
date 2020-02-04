@@ -13,10 +13,11 @@ const styles = {
     borderRadius: '15px',
     width: '300px',
   },
-  cardImg: {
-    display: 'block',
+  cardImgBlock: {
     height: '300px',
-    margin: '0 auto',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
   },
   infoBlock: {
     display: 'block',
@@ -52,9 +53,17 @@ const Item = (props) => {
     props.addToCart(item);
   };
 
+  const getStyleWithBackgroundImg = () => {
+    const urlPath = `url(${item.imgUrl})`;
+    return {
+      ...styles.cardImgBlock,
+      backgroundImage: urlPath,
+    };
+  };
+
   return (
     <div style={styles.card} className="item">
-      <img style={styles.cardImg} src={item.imgUrl} alt="" />
+      <div style={getStyleWithBackgroundImg()} />
       <div style={styles.infoBlock}>
         <span style={styles.category}>
           {item.category}

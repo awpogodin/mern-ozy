@@ -95,11 +95,11 @@ const RegisterForm = () => {
   const history = useHistory();
 
   const onSubmit = async (values, { setErrors, setSubmitting }) => {
-    axios
+    setSubmitting(true);
+    await axios
       .post('/api/auth/register', values)
       .then(() => {
         setSubmitting(false);
-
         history.push('/login');
       })
       .catch(err => {

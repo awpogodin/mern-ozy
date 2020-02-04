@@ -24,6 +24,7 @@ export const setUserLoading = ({ status }) => ({
 // Login user
 export const loginUser = token => dispatch => {
   jwtStorage.setItem(token);
+  // Set auth token to headers for requests
   setAuthToken(token);
   try {
     const user = jwt.verify(token, Config.jwtSecret);
@@ -39,6 +40,8 @@ export const loginUser = token => dispatch => {
       })
       .catch(() => {});
   } catch (e) {
+    // eslint-disable-next-line no-use-before-define
+    dispatch(logoutUser());
     throw new Error(e.message);
   }
 };

@@ -5,8 +5,32 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User.model');
+const auth = require('../../middlewares/auth.middleware');
 
 const router = new Router();
+
+
+// @route GET api/auth/
+// @desc Get user info by token (jwt)
+// @access Private
+router.get(
+  '/',
+  auth,
+  async (req, res) => {
+    try {
+      const { userId } = req.user;
+      const user = await User.findById(userId);
+      const {
+        email, name, surname, middleName, address, phone,
+      } = user;
+      res.status(200).json({
+        email, name, surname, middleName, address, phone,
+      });
+    } catch (e) {
+      res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+    }
+  },
+);
 
 // @route POST api/auth/register
 // @desc Register user

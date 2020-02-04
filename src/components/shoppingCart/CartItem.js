@@ -10,7 +10,7 @@ import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { AddItemToCart, removeAllOfItemFromCart, removeItemFromCart } from '../../actions/shoppingCartActions';
 import { itemProps, shoppingCartProps } from '../../propTypes/proptypes';
-import prettify from "../../utils/prettifyNum";
+import prettify from '../../utils/prettifyNum';
 
 const styles = {
   item: {

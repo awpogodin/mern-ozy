@@ -1,14 +1,18 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import './creditCard.css';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import moonAlgorithm from '../../utils/moonAlgorithm';
-import { setCurrentAddressInCart, setShoppingCart } from '../../actions/shoppingCartActions';
+import { clearShoppingCart } from '../../actions/shoppingCartActions';
 import { shoppingCartProps } from '../../propTypes/proptypes';
+
 
 const styles = {
   creditCard: {
@@ -47,7 +51,9 @@ const styles = {
 };
 
 const CreditCardForm = (props) => {
-  const { shoppingCart } = props;
+  const { shoppingCart, clearShoppingCart } = props;
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -83,11 +89,17 @@ const CreditCardForm = (props) => {
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
+      onSubmit={async (values, { setSubmitting }) => {
+        setSubmitting(true);
+        await axios
+          .post('/api/carts/pay', { paymentData: values, cart: shoppingCart })
+          .then((res) => {
+            console.log(res.data);
+            setSubmitting(false);
+            clearShoppingCart();
+            history.push('/cart');
+          })
+          .catch((e) => console.log(e));
       }}
     >
       {({ submitForm, isSubmitting }) => (
@@ -170,7 +182,7 @@ const CreditCardForm = (props) => {
 
 CreditCardForm.propTypes = {
   shoppingCart: shoppingCartProps.isRequired,
-  setCurrentAddressInCart: PropTypes.func.isRequired,
+  clearShoppingCart: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -178,8 +190,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = ({
-  setShoppingCart,
-  setCurrentAddressInCart,
+  clearShoppingCart,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreditCardForm);

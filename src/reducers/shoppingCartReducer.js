@@ -1,5 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { PUSH_ITEMS_TO_CART, SET_CURRENT_ADDRESS, SET_SHOPPING_CART } from '../actions/types';
+import {
+  CLEAR_SHOPPING_CART, PUSH_ITEMS_TO_CART, SET_CURRENT_ADDRESS, SET_SHOPPING_CART,
+} from '../actions/types';
 
 const initialState = {
   _id: '',
@@ -16,6 +18,10 @@ export default function (state = initialState, action) {
       return {
         ...state,
         ...action.payload,
+      };
+    case CLEAR_SHOPPING_CART:
+      return {
+        ...initialState,
       };
     case PUSH_ITEMS_TO_CART:
       return {

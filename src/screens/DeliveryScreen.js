@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { Input, Radio } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import Title from '../components/Title';
 import { setCurrentAddressInCart, setShoppingCart } from '../actions/shoppingCartActions';
 import { authProps, shoppingCartProps } from '../propTypes/proptypes';
 import AddressCard from '../components/delivery/AddressCard';
 import { getCountOfItems } from '../selectors/shoppingCartSelectors';
 import StepperComponent from '../components/stepper/StepperComponent';
+import LinearLoading from '../components/LinearLoading';
 
 const styles = {
   list: {
@@ -58,6 +60,7 @@ const DeliveryScreen = (props) => {
   const [otherAddressInput, setOtherAddressInput] = React.useState('');
   const [addressValid, setAddressValid] = React.useState(false);
   const [currentAddress, setCurrentAddress] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const history = useHistory();
   const {
     auth, shoppingCart, setCurrentAddressInCart, countOfItems,
@@ -107,7 +110,21 @@ const DeliveryScreen = (props) => {
   };
 
   const handleForward = () => {
-    history.push('/payment');
+    if (auth.isAuthenticated) {
+      setIsSubmitting(true);
+      axios
+        .post('/api/carts', shoppingCart)
+        .then(() => {
+          setIsSubmitting(false);
+          history.push('/payment');
+        })
+        .catch((e) => {
+          setIsSubmitting(false);
+          console.log(e);
+        });
+    } else {
+      history.push('/login');
+    }
   };
 
   return (
@@ -173,6 +190,7 @@ const DeliveryScreen = (props) => {
           Продолжить
         </Button>
       </div>
+      <LinearLoading loading={isSubmitting} />
     </>
   );
 };

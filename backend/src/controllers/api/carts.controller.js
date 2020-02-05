@@ -30,21 +30,21 @@ router.post('/', auth, async (req, res) => {
   try {
     const { userId } = req.user;
     const {
-      items, customerId = userId, address = '', addressType = '',
+      items, address = '', addressType = '',
     } = req.body;
     const cart = await Cart.findOne({ customerId: userId, completed: false });
     if (cart) {
-      const updatedCart = await Cart.findByIdAndUpdate(cart.id, {
+      await Cart.findByIdAndUpdate(cart.id, {
         items, address, addressType,
       });
-      return res.status(201).json(updatedCart);
+      return res.status(201).end();
     }
     const newCart = new Cart({
-      items, customerId, address, addressType,
+      items, customerId: userId, address, addressType,
     });
     await newCart.save();
 
-    res.status(201).json(newCart);
+    res.status(201).end();
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
   }
@@ -55,9 +55,9 @@ router.post('/', auth, async (req, res) => {
 // @access Private
 router.post('/pay', auth, async (req, res) => {
   try {
-    const { userId } = req.user;
     const { paymentData, cart } = req.body;
-
+    console.log(paymentData);
+    console.log(cart);
     await Cart.findByIdAndUpdate(cart.id, {
       completed: true,
     });

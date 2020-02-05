@@ -93,13 +93,14 @@ const CreditCardForm = (props) => {
         setSubmitting(true);
         await axios
           .post('/api/carts/pay', { paymentData: values, cart: shoppingCart })
-          .then((res) => {
-            console.log(res.data);
+          .then(() => {
             setSubmitting(false);
             clearShoppingCart();
-            history.push('/cart');
+            history.push('/success');
           })
-          .catch((e) => console.log(e));
+          .catch(() => {
+            history.push('/fail');
+          });
       }}
     >
       {({ submitForm, isSubmitting }) => (

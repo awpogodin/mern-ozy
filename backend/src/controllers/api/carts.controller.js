@@ -55,9 +55,10 @@ router.post('/', auth, async (req, res) => {
 // @access Private
 router.post('/pay', auth, async (req, res) => {
   try {
-    const { paymentData, cart } = req.body;
-    console.log(paymentData);
-    console.log(cart);
+    const {
+      // paymentData,
+      cart,
+    } = req.body;
     await Cart.findByIdAndUpdate(cart.id, {
       completed: true,
     });

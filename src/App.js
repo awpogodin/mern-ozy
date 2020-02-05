@@ -16,6 +16,7 @@ import PrivateRoute from './components/PrivateRoute';
 import ProfileScreen from './screens/ProfileScreen';
 import DeliveryScreen from './screens/DeliveryScreen';
 import PaymentScreen from './screens/PaymentScreen';
+import Title from './components/Title';
 
 class App extends React.Component {
   componentDidMount() {
@@ -64,6 +65,12 @@ class App extends React.Component {
           </Route>
           <Route path="/login">
             <LoginScreen />
+          </Route>
+          <Route path="/success">
+            <Title title="Спасибо за покупку!" />
+          </Route>
+          <Route path="/fail">
+            <Title title="Оплата не удалась :с" />
           </Route>
           <Route path="/profile">
             <PrivateRoute>

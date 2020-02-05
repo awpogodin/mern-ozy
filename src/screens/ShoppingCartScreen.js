@@ -48,9 +48,8 @@ const ShoppingCartScreen = (props) => {
           setIsSubmitting(false);
           history.push('/delivery');
         })
-        .catch((e) => {
+        .catch(() => {
           setIsSubmitting(false);
-          console.log(e);
         });
     } else {
       history.push('/login');

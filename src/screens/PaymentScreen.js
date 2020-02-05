@@ -12,7 +12,7 @@ import StepperComponent from '../components/stepper/StepperComponent';
 const styles = {
   btns: {
     display: 'flex',
-    marginTop: '50px',
+    margin: '50px 0',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'end',

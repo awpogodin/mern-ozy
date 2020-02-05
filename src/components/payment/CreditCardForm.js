@@ -25,7 +25,7 @@ const styles = {
     boxShadow: '5px 5px 30px 0 rgba(33,33,33,0.1)',
   },
   cardRow: {
-    margin: '20px auto',
+    margin: '30px auto',
     width: '400px',
     textAlign: 'center',
   },
@@ -43,7 +43,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: '0 auto',
+    margin: '30px auto',
+    minHeight: '70px',
     marginTop: '50px',
     width: '400px',
     fontSize: '30px',
@@ -65,6 +66,8 @@ const CreditCardForm = (props) => {
       }}
       validate={values => {
         const errors = {};
+        const currentDate = new Date(Date.now());
+        const enteredDate = new Date(20 + values.year, values.month);
         if (!values.number.trim()) {
           errors.number = 'Введите номер карты';
         }
@@ -75,9 +78,13 @@ const CreditCardForm = (props) => {
         }
         if (!values.month.trim()) {
           errors.month = 'Введите месяц';
+        } else if (values.month > 12) {
+          errors.month = 'Некорректный месяц';
         }
         if (!values.year.trim()) {
           errors.year = 'Введите год';
+        } else if (enteredDate < currentDate) {
+          errors.year = 'Истек срок';
         }
         if (!values.holder.trim()) {
           errors.holder = 'Введите держателя карты';

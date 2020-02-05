@@ -34,9 +34,6 @@ const ShoppingCartScreen = (props) => {
 
   useEffect(() => {
     setLoading(false);
-    if (countOfItems === 0) {
-      history.push('/cart');
-    }
   }, []);
 
   const handleForward = () => {

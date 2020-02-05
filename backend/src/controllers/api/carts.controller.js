@@ -8,28 +8,61 @@ const router = new Router();
 
 
 // @route GET api/carts/
-// @desc Get all carts
+// @desc Get cart by jwt token
 // @access Private
 router.get('/', auth, async (req, res) => {
-  const carts = await Cart.find({});
-  return res.json(carts);
+  try {
+    const { userId } = req.user;
+    const cart = await Cart.findOne({ customerId: userId, completed: false });
+    if (cart) {
+      return res.status(200).json(cart);
+    }
+    return res.status(404).end();
+  } catch (e) {
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+  }
 });
 
 // @route POST api/carts/
-// @desc Create cart
+// @desc Create or update cart
 // @access Private
 router.post('/', auth, async (req, res) => {
   try {
+    const { userId } = req.user;
     const {
-      items, customerId, address, addressType,
+      items, customerId = userId, address = '', addressType = '',
     } = req.body;
-    const cart = new Cart({
+    const cart = await Cart.findOne({ customerId: userId, completed: false });
+    if (cart) {
+      const updatedCart = await Cart.findByIdAndUpdate(cart.id, {
+        items, address, addressType,
+      });
+      return res.status(201).json(updatedCart);
+    }
+    const newCart = new Cart({
       items, customerId, address, addressType,
     });
+    await newCart.save();
 
-    await cart.save();
+    res.status(201).json(newCart);
+  } catch (e) {
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+  }
+});
 
-    res.status(201).json({ message: 'Корзина создана' });
+// @route POST api/carts/pay
+// @desc Order payment
+// @access Private
+router.post('/pay', auth, async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { paymentData, cart } = req.body;
+
+    await Cart.findByIdAndUpdate(cart.id, {
+      completed: true,
+    });
+
+    return res.status(200).json({ message: 'Оплата прошла успешно!' });
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
   }

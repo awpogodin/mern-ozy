@@ -56,21 +56,23 @@ const styles = {
 };
 
 const DeliveryScreen = (props) => {
+  const {
+    auth, shoppingCart, setCurrentAddressInCart, countOfItems,
+  } = props;
+
   const [selectedValue, setSelectedValue] = React.useState('');
   const [otherAddressInput, setOtherAddressInput] = React.useState('');
   const [addressValid, setAddressValid] = React.useState(false);
   const [currentAddress, setCurrentAddress] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const history = useHistory();
-  const {
-    auth, shoppingCart, setCurrentAddressInCart, countOfItems,
-  } = props;
   const { user } = auth;
 
   useEffect(() => {
     if (countOfItems === 0) {
       history.push('/cart');
     }
+    setOtherAddressInput(shoppingCart.addressType === 'other' ? shoppingCart.address : '');
     setSelectedValue(shoppingCart.addressType);
   }, [countOfItems]);
 

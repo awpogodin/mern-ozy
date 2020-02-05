@@ -102,7 +102,7 @@ const CreditCardForm = (props) => {
                 className="number"
                 placeholder="0000 0000 0000 0000"
                 InputProps={{
-                  inputProps: { maxlength: 16 },
+                  inputProps: { maxLength: 16 },
                 }}
               />
             </div>
@@ -115,7 +115,7 @@ const CreditCardForm = (props) => {
                   className="month"
                   placeholder="00"
                   InputProps={{
-                    inputProps: { maxlength: 2 },
+                    inputProps: { maxLength: 2 },
                   }}
                 />
                 /
@@ -126,7 +126,7 @@ const CreditCardForm = (props) => {
                   className="year"
                   placeholder="00"
                   InputProps={{
-                    inputProps: { maxlength: 2 },
+                    inputProps: { maxLength: 2 },
                   }}
                 />
               </div>
@@ -137,7 +137,7 @@ const CreditCardForm = (props) => {
                 className="cvc"
                 placeholder="CVC"
                 InputProps={{
-                  inputProps: { maxlength: 3 },
+                  inputProps: { maxLength: 3 },
                 }}
               />
             </div>
@@ -171,7 +171,6 @@ const CreditCardForm = (props) => {
 CreditCardForm.propTypes = {
   shoppingCart: shoppingCartProps.isRequired,
   setCurrentAddressInCart: PropTypes.func.isRequired,
-  countOfItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({

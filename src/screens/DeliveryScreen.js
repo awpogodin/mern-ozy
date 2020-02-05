@@ -66,10 +66,10 @@ const DeliveryScreen = (props) => {
 
   useEffect(() => {
     if (countOfItems === 0) {
-      history.push('/');
+      history.push('/cart');
     }
     setSelectedValue(shoppingCart.addressType);
-  }, []);
+  }, [countOfItems]);
 
   useEffect(() => {
     if (selectedValue === 'home') {

@@ -27,7 +27,7 @@ const PaymentScreen = (props) => {
     if (countOfItems === 0) {
       history.push('/cart');
     }
-  }, []);
+  }, [countOfItems]);
 
   const handleBack = () => {
     history.push('/delivery');

@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Title from '../components/Title';
 import CreditCardForm from '../components/payment/CreditCardForm';
-import {getCountOfItems, getTotalOrderAmount} from "../selectors/shoppingCartSelectors";
-import {setShoppingCart} from "../actions/shoppingCartActions";
-import {authProps, shoppingCartProps} from "../propTypes/proptypes";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { getCountOfItems } from '../selectors/shoppingCartSelectors';
+import { setShoppingCart } from '../actions/shoppingCartActions';
 
 const styles = {
   btns: {

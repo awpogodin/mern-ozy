@@ -6,9 +6,10 @@ import { useHistory } from 'react-router-dom';
 import { setShoppingCart } from '../actions/shoppingCartActions';
 import Title from '../components/Title';
 import CartItemList from '../components/shoppingCart/CartItemList';
-import { authProps, shoppingCartProps } from '../propTypes/proptypes';
+import { shoppingCartProps } from '../propTypes/proptypes';
 import { getCountOfItems, getTotalOrderAmount } from '../selectors/shoppingCartSelectors';
 import CartTotalAmount from '../components/shoppingCart/CartTotalAmount';
+import StepperComponent from '../components/stepper/StepperComponent';
 
 const styles = {
   btns: {
@@ -27,7 +28,7 @@ const ShoppingCartScreen = (props) => {
   const [loading, setLoading] = React.useState(true);
   const history = useHistory();
   const {
-    auth, shoppingCart, totalOrderAmount, countOfItems,
+    shoppingCart, totalOrderAmount, countOfItems,
   } = props;
   const { items } = shoppingCart;
 
@@ -35,7 +36,7 @@ const ShoppingCartScreen = (props) => {
     setLoading(false);
     if (countOfItems === 0) {
       history.push('/cart');
-    };
+    }
   }, []);
 
   const handleForward = () => {
@@ -44,7 +45,9 @@ const ShoppingCartScreen = (props) => {
 
   return (
     <>
-      <Title title="Корзина" />
+      <Title title="Корзина">
+        <StepperComponent currentStep="cart" />
+      </Title>
       <CartItemList items={items} loading={loading} />
       <CartTotalAmount totalAmount={totalOrderAmount} />
       <div style={styles.btns}>
@@ -62,14 +65,12 @@ const ShoppingCartScreen = (props) => {
 };
 
 ShoppingCartScreen.propTypes = {
-  auth: authProps.isRequired,
   shoppingCart: shoppingCartProps.isRequired,
   totalOrderAmount: PropTypes.number.isRequired,
   countOfItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
   shoppingCart: state.shoppingCart,
   totalOrderAmount: getTotalOrderAmount(state),
   countOfItems: getCountOfItems(state),

@@ -7,6 +7,7 @@ import Title from '../components/Title';
 import CreditCardForm from '../components/payment/CreditCardForm';
 import { getCountOfItems } from '../selectors/shoppingCartSelectors';
 import { setShoppingCart } from '../actions/shoppingCartActions';
+import StepperComponent from '../components/stepper/StepperComponent';
 
 const styles = {
   btns: {
@@ -34,7 +35,9 @@ const PaymentScreen = (props) => {
 
   return (
     <>
-      <Title title="Оплата" />
+      <Title title="Оплата">
+        <StepperComponent currentStep="payment" />
+      </Title>
       <CreditCardForm />
       <div style={styles.btns}>
         <Button

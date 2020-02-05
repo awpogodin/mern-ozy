@@ -10,6 +10,7 @@ import { setCurrentAddressInCart, setShoppingCart } from '../actions/shoppingCar
 import { authProps, shoppingCartProps } from '../propTypes/proptypes';
 import AddressCard from '../components/delivery/AddressCard';
 import { getCountOfItems } from '../selectors/shoppingCartSelectors';
+import StepperComponent from '../components/stepper/StepperComponent';
 
 const styles = {
   list: {
@@ -111,7 +112,9 @@ const DeliveryScreen = (props) => {
 
   return (
     <>
-      <Title title="Доставка" />
+      <Title title="Доставка">
+        <StepperComponent currentStep="delivery" />
+      </Title>
       <div style={styles.list}>
         <AddressCard
           onClick={onClick}

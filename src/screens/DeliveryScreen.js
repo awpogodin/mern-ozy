@@ -8,7 +8,7 @@ import AddressCard from '../components/delivery/AddressCard';
 
 const styles = {
   list: {
-    margin: '50px 0',
+    margin: '100px 0',
   },
   addressBlock: {
     margin: '0 10px',
@@ -28,6 +28,8 @@ const styles = {
   },
   otherAddressInput: {
     display: 'block',
+    fontSize: '24px',
+    fontWeight: '300',
     width: '100%',
   },
 };
@@ -92,6 +94,7 @@ const DeliveryScreen = (props) => {
             </span>
             <div>
               <Input
+                type="input"
                 style={styles.otherAddressInput}
                 value={otherAddressInput}
                 onChange={handleInputChange}

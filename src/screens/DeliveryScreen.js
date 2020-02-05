@@ -5,6 +5,8 @@ import Title from '../components/Title';
 import { setShoppingCart } from '../actions/shoppingCartActions';
 import { authProps, shoppingCartProps } from '../propTypes/proptypes';
 import AddressCard from '../components/delivery/AddressCard';
+import Button from "@material-ui/core/Button";
+import {useHistory} from "react-router-dom";
 
 const styles = {
   list: {
@@ -32,11 +34,25 @@ const styles = {
     fontWeight: '300',
     width: '100%',
   },
+  selectedAddress: {
+    display: 'block',
+    fontWeight: '300',
+    fontSize: '28px',
+    color: '#212121',
+  },
+  btns: {
+    display: 'flex',
+    marginTop: '50px',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 };
 
 const DeliveryScreen = (props) => {
   const [selectedValue, setSelectedValue] = React.useState('home');
   const [otherAddressInput, setOtherAddressInput] = React.useState('');
+  const history = useHistory();
   const { auth, shoppingCard } = props;
   const { user } = auth;
 
@@ -51,6 +67,14 @@ const DeliveryScreen = (props) => {
 
   const onClick = (value) => {
     setSelectedValue(value);
+  };
+
+  const handleBack = () => {
+    history.push('/cart');
+  };
+
+  const handleForward = () => {
+    history.push('/payment');
   };
 
   return (
@@ -102,6 +126,10 @@ const DeliveryScreen = (props) => {
             </div>
           </div>
         </AddressCard>
+      </div>
+      <div style={styles.btns}>
+        <Button onClick={handleBack} color="primary">Назад</Button>
+        <Button onClick={handleForward} color="primary">Продолжить</Button>
       </div>
     </>
   );

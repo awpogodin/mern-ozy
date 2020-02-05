@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 const styles = {
   card: {
     display: 'flex',
+    padding: '5px',
     margin: '15px 0',
     borderRadius: '15px',
     flexDirection: 'row',
     alignItems: 'center',
     minHeight: '100px',
+    cursor: 'pointer',
   },
 };
 
@@ -21,11 +23,18 @@ const AddressCard = (props) => {
   };
 
   return (
-    <div style={styles.card} className="card" onClick={onClickHandler}>
+    <div
+      style={styles.card}
+      className="card"
+      onClick={onClickHandler}
+      onKeyDown={onClickHandler}
+      role="button"
+      tabIndex="0"
+    >
       {children}
     </div>
   );
-}
+};
 
 AddressCard.propTypes = {
   children: PropTypes.node.isRequired,

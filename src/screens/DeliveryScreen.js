@@ -78,9 +78,9 @@ const DeliveryScreen = (props) => {
   }, [selectedValue, otherAddressInput]);
 
   useEffect(() => {
+    setCurrentAddressInCart(currentAddress, selectedValue);
     if (currentAddress.trim() && currentAddress.length > 3) {
       setAddressValid(true);
-      setCurrentAddressInCart(currentAddress, selectedValue);
     } else {
       setAddressValid(false);
     }

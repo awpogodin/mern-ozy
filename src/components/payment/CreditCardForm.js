@@ -47,7 +47,7 @@ const styles = {
 };
 
 const CreditCardForm = (props) => {
-  const { auth, shoppingCart } = props;
+  const { shoppingCart } = props;
   return (
     <Formik
       initialValues={{

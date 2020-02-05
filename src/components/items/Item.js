@@ -6,7 +6,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { connect } from 'react-redux';
 import { AddItemToCart } from '../../actions/shoppingCartActions';
 import { shoppingCartProps, itemProps } from '../../propTypes/proptypes';
-import prettify from "../../utils/prettifyNum";
+import prettify from '../../utils/prettifyNum';
 
 const styles = {
   card: {

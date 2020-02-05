@@ -14,7 +14,8 @@ import jwtStorage from './utils/jwtStorage';
 import ShoppingCartScreen from './screens/ShoppingCartScreen';
 import PrivateRoute from './components/PrivateRoute';
 import ProfileScreen from './screens/ProfileScreen';
-import DeliveryScreen from "./screens/DeliveryScreen";
+import DeliveryScreen from './screens/DeliveryScreen';
+import PaymentScreen from './screens/PaymentScreen';
 
 class App extends React.Component {
   componentDidMount() {
@@ -48,6 +49,11 @@ class App extends React.Component {
           <Route path="/delivery">
             <PrivateRoute>
               <DeliveryScreen />
+            </PrivateRoute>
+          </Route>
+          <Route path="/payment">
+            <PrivateRoute>
+              <PaymentScreen />
             </PrivateRoute>
           </Route>
           <Route path="/cart">

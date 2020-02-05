@@ -1,0 +1,28 @@
+.number input {
+    width: 100%;
+    font-size: 41px;
+}
+
+.month input {
+    margin: 0 10px;
+    width: 40px;
+    font-size: 30px;
+}
+
+.year input {
+    margin: 0 10px;
+    width: 40px;
+    font-size: 30px;
+}
+
+.cvc input {
+    display: block;
+    margin: 0 30px;
+    width: 60px;
+    font-size: 30px;
+}
+
+.holder input {
+    width: 100%;
+    font-size: 30px;
+}

@@ -42,7 +42,6 @@ export const loginUser = token => dispatch => {
   } catch (e) {
     // eslint-disable-next-line no-use-before-define
     dispatch(logoutUser());
-    throw new Error(e.message);
   }
 };
 

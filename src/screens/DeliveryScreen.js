@@ -6,10 +6,10 @@ import { Input, Radio } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import Title from '../components/Title';
-import {setCurrentAddressInCart, setShoppingCart} from '../actions/shoppingCartActions';
+import { setCurrentAddressInCart, setShoppingCart } from '../actions/shoppingCartActions';
 import { authProps, shoppingCartProps } from '../propTypes/proptypes';
 import AddressCard from '../components/delivery/AddressCard';
-import {getCountOfItems} from "../selectors/shoppingCartSelectors";
+import { getCountOfItems } from '../selectors/shoppingCartSelectors';
 
 const styles = {
   list: {
@@ -58,7 +58,9 @@ const DeliveryScreen = (props) => {
   const [addressValid, setAddressValid] = React.useState(false);
   const [currentAddress, setCurrentAddress] = React.useState('');
   const history = useHistory();
-  const { auth, shoppingCart, setCurrentAddressInCart, countOfItems } = props;
+  const {
+    auth, shoppingCart, setCurrentAddressInCart, countOfItems,
+  } = props;
   const { user } = auth;
 
   useEffect(() => {
@@ -157,7 +159,6 @@ const DeliveryScreen = (props) => {
             </div>
           </div>
         </AddressCard>
-        {currentAddress}
       </div>
       <div style={styles.btns}>
         <Button onClick={handleBack} color="primary">Назад</Button>

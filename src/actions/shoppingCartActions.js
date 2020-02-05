@@ -1,4 +1,4 @@
-import { PUSH_ITEMS_TO_CART, SET_SHOPPING_CART } from './types';
+import {PUSH_ITEMS_TO_CART, SET_CURRENT_ADDRESS, SET_SHOPPING_CART} from './types';
 
 export const setShoppingCart = shoppingCart => ({
   type: SET_SHOPPING_CART,
@@ -8,6 +8,11 @@ export const setShoppingCart = shoppingCart => ({
 export const pushItemsToCart = items => ({
   type: PUSH_ITEMS_TO_CART,
   payload: items,
+});
+
+export const setCurrentAddressInCart = (address, addressType) => ({
+  type: SET_CURRENT_ADDRESS,
+  payload: { address, addressType },
 });
 
 export const AddItemToCart = (newItem, cart) => dispatch => {

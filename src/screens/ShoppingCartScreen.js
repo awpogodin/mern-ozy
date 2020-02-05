@@ -7,7 +7,7 @@ import { setShoppingCart } from '../actions/shoppingCartActions';
 import Title from '../components/Title';
 import CartItemList from '../components/shoppingCart/CartItemList';
 import { authProps, shoppingCartProps } from '../propTypes/proptypes';
-import { getTotalOrderAmount } from '../selectors/shoppingCartSelectors';
+import { getCountOfItems, getTotalOrderAmount } from '../selectors/shoppingCartSelectors';
 import CartTotalAmount from '../components/shoppingCart/CartTotalAmount';
 
 const styles = {
@@ -26,7 +26,9 @@ const styles = {
 const ShoppingCartScreen = (props) => {
   const [loading, setLoading] = React.useState(true);
   const history = useHistory();
-  const { auth, shoppingCart, totalOrderAmount } = props;
+  const {
+    auth, shoppingCart, totalOrderAmount, countOfItems,
+  } = props;
   const { items } = shoppingCart;
 
   useEffect(() => {
@@ -43,7 +45,14 @@ const ShoppingCartScreen = (props) => {
       <CartItemList items={items} loading={loading} />
       <CartTotalAmount totalAmount={totalOrderAmount} />
       <div style={styles.btns}>
-        <Button onClick={handleForward} style={styles.btnForward} color="primary">Продолжить</Button>
+        <Button
+          onClick={handleForward}
+          style={styles.btnForward}
+          color="primary"
+          disabled={countOfItems === 0}
+        >
+          Продолжить
+        </Button>
       </div>
     </>
   );
@@ -53,12 +62,14 @@ ShoppingCartScreen.propTypes = {
   auth: authProps.isRequired,
   shoppingCart: shoppingCartProps.isRequired,
   totalOrderAmount: PropTypes.number.isRequired,
+  countOfItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   shoppingCart: state.shoppingCart,
   totalOrderAmount: getTotalOrderAmount(state),
+  countOfItems: getCountOfItems(state),
 });
 
 const mapDispatchToProps = ({

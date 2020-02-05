@@ -1,12 +1,15 @@
-import React from 'react';
+/* eslint-disable no-shadow */
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Input, Radio } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 import Title from '../components/Title';
-import { setShoppingCart } from '../actions/shoppingCartActions';
+import {setCurrentAddressInCart, setShoppingCart} from '../actions/shoppingCartActions';
 import { authProps, shoppingCartProps } from '../propTypes/proptypes';
 import AddressCard from '../components/delivery/AddressCard';
-import Button from "@material-ui/core/Button";
-import {useHistory} from "react-router-dom";
+import {getCountOfItems} from "../selectors/shoppingCartSelectors";
 
 const styles = {
   list: {
@@ -50,11 +53,38 @@ const styles = {
 };
 
 const DeliveryScreen = (props) => {
-  const [selectedValue, setSelectedValue] = React.useState('home');
+  const [selectedValue, setSelectedValue] = React.useState('');
   const [otherAddressInput, setOtherAddressInput] = React.useState('');
+  const [addressValid, setAddressValid] = React.useState(false);
+  const [currentAddress, setCurrentAddress] = React.useState('');
   const history = useHistory();
-  const { auth, shoppingCard } = props;
+  const { auth, shoppingCart, setCurrentAddressInCart, countOfItems } = props;
   const { user } = auth;
+
+  useEffect(() => {
+    if (countOfItems === 0) {
+      history.push('/');
+    }
+    setSelectedValue(shoppingCart.addressType);
+  }, []);
+
+  useEffect(() => {
+    if (selectedValue === 'home') {
+      setCurrentAddress(user.address);
+    }
+    if (selectedValue === 'other') {
+      setCurrentAddress(otherAddressInput);
+    }
+  }, [selectedValue, otherAddressInput]);
+
+  useEffect(() => {
+    if (currentAddress.trim() && currentAddress.length > 3) {
+      setAddressValid(true);
+      setCurrentAddressInCart(currentAddress, selectedValue);
+    } else {
+      setAddressValid(false);
+    }
+  }, [currentAddress]);
 
   const handleChange = e => {
     setSelectedValue(e.target.value);
@@ -122,14 +152,22 @@ const DeliveryScreen = (props) => {
                 style={styles.otherAddressInput}
                 value={otherAddressInput}
                 onChange={handleInputChange}
+                error={!addressValid && selectedValue === 'other'}
               />
             </div>
           </div>
         </AddressCard>
+        {currentAddress}
       </div>
       <div style={styles.btns}>
         <Button onClick={handleBack} color="primary">Назад</Button>
-        <Button onClick={handleForward} color="primary">Продолжить</Button>
+        <Button
+          onClick={handleForward}
+          color="primary"
+          disabled={!addressValid}
+        >
+          Продолжить
+        </Button>
       </div>
     </>
   );
@@ -138,15 +176,19 @@ const DeliveryScreen = (props) => {
 DeliveryScreen.propTypes = {
   auth: authProps.isRequired,
   shoppingCart: shoppingCartProps.isRequired,
+  setCurrentAddressInCart: PropTypes.func.isRequired,
+  countOfItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   shoppingCart: state.shoppingCart,
+  countOfItems: getCountOfItems(state),
 });
 
 const mapDispatchToProps = ({
   setShoppingCart,
+  setCurrentAddressInCart,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeliveryScreen);

@@ -69,16 +69,16 @@ const DeliveryScreen = (props) => {
       history.push('/cart');
     }
     setSelectedValue(shoppingCart.addressType);
-  }, [countOfItems]);
+  }, [countOfItems, shoppingCart, history]);
 
   useEffect(() => {
     if (selectedValue === 'home') {
-      setCurrentAddress(user.address);
+      setCurrentAddress(auth.user.address);
     }
     if (selectedValue === 'other') {
       setCurrentAddress(otherAddressInput);
     }
-  }, [selectedValue, otherAddressInput]);
+  }, [selectedValue, otherAddressInput, auth]);
 
   useEffect(() => {
     setCurrentAddressInCart(currentAddress, selectedValue);
@@ -87,7 +87,7 @@ const DeliveryScreen = (props) => {
     } else {
       setAddressValid(false);
     }
-  }, [currentAddress]);
+  }, [currentAddress, selectedValue]);
 
   const handleChange = e => {
     setSelectedValue(e.target.value);

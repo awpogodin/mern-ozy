@@ -3,7 +3,7 @@ import React from 'react';
 import './cartItem.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
@@ -27,6 +27,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingLeft: '15px',
   },
   right: {
     display: 'flex',
@@ -50,6 +51,7 @@ const styles = {
     fontSize: '16px',
     color: '#9E9E9E',
     cursor: 'pointer',
+    textDecoration: 'none',
   },
   itemName: {
     display: 'block',
@@ -79,15 +81,11 @@ const CartItem = (props) => {
   const {
     item, AddItemToCart, removeItemFromCart, removeAllOfItemFromCart, shoppingCart,
   } = props;
-  const history = useHistory();
   const {
     name, imgUrl, category, price, count,
   } = item;
 
-  const changeRouteCategory = e => {
-    const path = `/category/${e.currentTarget.innerHTML}`;
-    history.push(path);
-  };
+  const CategoryUrl = `/category/${category}`;
 
   const handleAdd = () => {
     AddItemToCart(item, shoppingCart);
@@ -114,7 +112,7 @@ const CartItem = (props) => {
       <div style={styles.left}>
         <div style={getStyleWithBackgroundImg()} />
         <div>
-          <span onClick={changeRouteCategory} style={styles.itemCategory}>{category}</span>
+          <Link to={CategoryUrl} style={styles.itemCategory}>{category}</Link>
           <span style={styles.itemName}>{name}</span>
         </div>
       </div>

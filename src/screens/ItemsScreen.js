@@ -48,7 +48,9 @@ const ItemsScreen = props => {
 
   useEffect(() => {
     setLoading(true);
-    setFilteredItems(items.filter(item => item.name.toLowerCase().indexOf(searchInput.toLowerCase()) + 1));
+    setFilteredItems(
+      items.filter(item => item.name.toLowerCase().indexOf(searchInput.toLowerCase()) + 1),
+    );
     setLoading(false);
   }, [searchInput, items]);
 

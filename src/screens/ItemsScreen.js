@@ -5,6 +5,7 @@ import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
+import Input from '@material-ui/core/Input';
 import Title from '../components/Title';
 import ItemsList from '../components/items/ItemsList';
 
@@ -13,12 +14,21 @@ const styles = {
     display: 'block',
     margin: '10px auto',
   },
+  search: {
+    width: '300px',
+    margin: '20px auto',
+  },
+  searchInput: {
+    width: '100%',
+  },
 };
 
 const ItemsScreen = props => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [items, setItems] = React.useState([]);
+  const [filteredItems, setFilteredItems] = React.useState([]);
+  const [searchInput, setSearchInput] = React.useState('');
   const history = useHistory();
   const { category } = props;
 
@@ -36,6 +46,12 @@ const ItemsScreen = props => {
       });
   }, [category]);
 
+  useEffect(() => {
+    setLoading(true);
+    setFilteredItems(items.filter(item => item.name.toLowerCase().indexOf(searchInput.toLowerCase()) + 1));
+    setLoading(false);
+  }, [searchInput, items]);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -49,6 +65,10 @@ const ItemsScreen = props => {
     history.push(path);
 
     handleClose();
+  };
+
+  const handleSearchInput = e => {
+    setSearchInput(e.target.value);
   };
 
   const getCategoryRus = () => {
@@ -75,7 +95,15 @@ const ItemsScreen = props => {
         <MenuItem href="/category/tablets" onClick={changeRoute}>{category === 'tablets' ? (<b>Планшеты</b>) : (<span>Планшеты</span>)}</MenuItem>
         <MenuItem href="/category/accessories" onClick={changeRoute}>{category === 'accessories' ? (<b>Аксессуары</b>) : (<span>Аксессуары</span>)}</MenuItem>
       </Menu>
-      <ItemsList items={items} loading={loading} />
+      <div style={styles.search}>
+        <Input
+          style={styles.searchInput}
+          value={searchInput}
+          onChange={handleSearchInput}
+          disabled={loading}
+        />
+      </div>
+      <ItemsList items={filteredItems} loading={loading} />
     </div>
   );
 };

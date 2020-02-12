@@ -102,6 +102,7 @@ const ItemsScreen = props => {
           style={styles.searchInput}
           value={searchInput}
           onChange={handleSearchInput}
+          placeholder="Поиск"
           disabled={loading}
         />
       </div>
